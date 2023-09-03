@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'administration/payment/fonts/icomoon/style.css'%}">
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'administration/payment/css/bootstrap.min.css'%}">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'administration/payment/css/style.css'%}">
+
+    <title>Payments Table</title>
+  </head>
+  <body>
+  
+
+  <div class="content">
+    
+    <div class="container">
+      <h2 class="mb-5">Payments</h2>
+      
+
+      <div class="table-responsive custom-table-responsive">
+
+        <table class="table custom-table">
+          <thead>
+            <tr>  
+
+              <th scope="col">
+                <label class="control control--checkbox">
+                  <input type="checkbox"  class="js-check-all"/>
+                  <div class="control__indicator"></div>
+                </label>
+              </th>
+              
+              <th scope="col">Paid</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Date</th>
+              <th scope="col">Due Date</th>
+              <th scope="col">Amount Remaining</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in "x"|ljust:25 %}
+            <tr scope="row">
+              <th scope="row">
+                <label class="control control--checkbox">
+                  <input type="checkbox"/>
+                  <div class="control__indicator"></div>
+                </label>
+              </th>
+              <td>
+                pay
+              </td>
+              <td><a href="#">James Yates</a></td>
+              <td>
+                Web Designer
+                <small class="d-block">Far far away, behind the word mountains</small>
+              </td>
+              <td>+63 983 0962 971</td>
+              <td>NY University</td>
+            </tr>
+            {% endfor %}
+      
+            
+            
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>
+    
+    
+
+    <script src="{% static 'administration/payment/js/jquery-3.3.1.min.js'%}"></script>
+    <script src="{% static 'administration/payment/js/popper.min.js'%}"></script>
+    <script src="{% static 'administration/payment/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'administration/payment/js/main.js'%}"></script>
+  </body>
+</html>

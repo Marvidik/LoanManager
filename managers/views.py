@@ -212,8 +212,37 @@ def applied(request):
     applied = LoanApply.objects.filter(customer__in=customers, status='Pending')
 
     context = {
-        "applied": applied
+        "applied": applied,
+        "customers":customers
     }
 
     return render(request, "managers/applied.html", context)
 
+
+
+def apply_loan(request):
+    if request.method == 'POST':
+        # Get the data from the POST request
+        customer_id = request.POST.get('customer_id')
+        amount = request.POST.get('amount')
+        
+        # Validate and process the data
+        try:
+            customer = Customers.objects.get(id=customer_id)
+            branch = Branch.objects.get(manager=request.user.manager)  # Assuming manager is logged in
+            if customer.branch == branch:
+                # Create a new loan application
+                application = LoanApply(customer=customer, amount=amount)
+                application.save()
+                return redirect('success')  # Redirect to a success page or another URL
+            else:
+                return render(request, 'error.html', {'error_message': 'Customer is not in your branch'})
+        except (Customers.DoesNotExist, Branch.DoesNotExist, ValueError):
+            return render(request, 'error.html', {'error_message': 'Invalid data or customer not found'})
+    
+    # If the request method is GET or there's an error, render the loan application form
+    customers = Customers.objects.filter(branch=request.user.manager.branch)  # Get customers in the manager's branch
+    context = {
+        'customers': customers,
+    }
+    return render(request, 'managers/applied.html', context)

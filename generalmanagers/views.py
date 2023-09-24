@@ -3,12 +3,16 @@ from django.contrib.auth.models import User
 from .models import GeneralManager
 from administration.models import Branch,Customers,State,Loan
 from django.db.models import Sum
+from administration.decorator import group_required
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 from django.db.models import Sum, F, ExpressionWrapper, FloatField
 
+@login_required
+@group_required(["GeneralManager"])
 def dashboard(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)
@@ -76,6 +80,8 @@ def dashboard(request):
     
     return render(request, "generalmanagers/dashboard.html", context)
 
+@login_required
+@group_required(["GeneralManager"])
 def state_customers(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)
@@ -145,7 +151,8 @@ def state_customers(request):
 
     return render(request, "generalmanagers/statecustomers.html", context)
 
-
+@login_required
+@group_required(["GeneralManager"])
 def state_loans(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)
@@ -215,7 +222,8 @@ def state_loans(request):
     return render(request, "generalmanagers/loans.html", context)
 
 
-
+@login_required
+@group_required(["GeneralManager"])
 def customer_search(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)
@@ -279,7 +287,8 @@ def customer_search(request):
             
     return render(request,"generalmanagers/customersearch.html",context)
 
-
+@login_required
+@group_required(["GeneralManager"])
 def loan_search(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)
@@ -345,6 +354,8 @@ def loan_search(request):
 
     return render(request,"generalmanagers/loansearch.html",context)
 
+@login_required
+@group_required(["GeneralManager"])
 def branches(request):
     user = User.objects.get(username=request.user.username)
     general_manager = GeneralManager.objects.get(name=user.id)

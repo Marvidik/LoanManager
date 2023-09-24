@@ -10,7 +10,6 @@ urlpatterns = [
     path("profile/<int:customer_id>/",customer_details,name="detail"),
     path("loans/",loan_table,name="loans"),
     path("add_payment/",loan_payment,name="payment"),
-    path("log-in/",login_view,name="login"),
     path("general-manager_signup/",register_view,name="register"),
     path("manager_sign_up/",manager_sign_up,name="managersignup"),
     path('states/',states,name="states"),

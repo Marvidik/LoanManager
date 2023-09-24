@@ -12,11 +12,13 @@ from django.views.generic import  ListView
 from .decorator import group_required
 from django.contrib.auth.decorators import login_required
 from administration.models import LoanApply
+from django.contrib.auth import login
 
 
 
 #  function that renders the admin page for the super user 
 @login_required
+@group_required(["Admin"])
 def dashboard(request):
     customer_loan_data = []
     customers = Customers.objects.all()
@@ -64,6 +66,7 @@ def dashboard(request):
 
 # function for the all the customers in the platform
 @login_required
+@group_required(["Admin"])
 def customers(request):
     customers = Customers.objects.all()
     customer_loan_data = Customers.objects.annotate(
@@ -81,6 +84,7 @@ def customers(request):
     return render(request,"administration/tables.html",context)
 
 @login_required
+@group_required(["Admin"])
 def customer_details(request, customer_id):
     customer = get_object_or_404(Customers, pk=customer_id)
     loans = customer.loan_set.all()
@@ -93,6 +97,7 @@ def customer_details(request, customer_id):
     return render(request, 'administration/profile.html', context)
 
 @login_required
+@group_required(["Admin"])
 def loan_table(request):
     customer_loan_data = []
     customers = Customers.objects.all()
@@ -117,6 +122,7 @@ def loan_table(request):
 
 
 @login_required
+@group_required(["Admin"])
 def loan_payment(request,customer_id):
     
 
@@ -166,6 +172,13 @@ def register_view(request):
         new_leader=GeneralManager(name=user)
         new_leader.save()
 
+        # Customize this line to assign the user to your desired group
+        group = Group.objects.get(name='GeneralManager')  # Replace 'YourGroupName' with the actual group name
+        user.groups.add(group)
+
+        login(request, user)  # Log the user in
+
+
         # assigns a user to a group
         # leader_group = Group.objects.get(name='leader')
         # user.groups.add(leader_group)
@@ -197,6 +210,11 @@ def manager_sign_up(request):
         new_leader=Manager(name=user)
         new_leader.save()
 
+         # Customize this line to assign the user to your desired group
+        group = Group.objects.get(name='Manager')  # Replace 'YourGroupName' with the actual group name
+        user.groups.add(group)
+
+        login(request, user)  # Log the user in
         # assigns a user to a group
         # leader_group = Group.objects.get(name='leader')
         # user.groups.add(leader_group)
@@ -226,6 +244,7 @@ def add_customer(request):
     return render(request,"administration/index.html",context)
 
 @login_required
+@group_required(["Admin"])
 def gsearch_users(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -245,6 +264,7 @@ def gsearch_users(request):
         return render(request, 'administration/search.html', context)
     
 @login_required
+@group_required(["Admin"])
 def asearch_customer_loans(request):
     if request.method == 'GET':
         ppaid=0
@@ -271,7 +291,8 @@ def asearch_customer_loans(request):
         return render(request, 'administration/loansearch.html', context)
 
 
-
+@login_required
+@group_required(["Admin"])
 def states(request):
     states = State.objects.annotate(
         branch_count=Count('branch', distinct=True),
@@ -284,7 +305,8 @@ def states(request):
 
     return render(request, "administration/states.html", context)
 
-
+@login_required
+@group_required(["Admin"])
 def state_detail(request, state_id):
     state = get_object_or_404(State, pk=state_id)
     branches = Branch.objects.filter(state=state).annotate(
@@ -316,6 +338,8 @@ def applied_loans(request):
 
 from django.utils import timezone
 
+@login_required
+@group_required(["Admin"])
 def approve_loan(request, loan_id):
     loan = get_object_or_404(LoanApply, id=loan_id)
     
@@ -338,7 +362,8 @@ def approve_loan(request, loan_id):
 
 
 
-
+@login_required
+@group_required(["Admin"])
 def reject_loan(request, loan_id):
     loan = get_object_or_404(LoanApply, id=loan_id)
     
@@ -348,9 +373,8 @@ def reject_loan(request, loan_id):
     
     return redirect('applied_loans')  # Redirect to the applied loans list
 
-
-
-
+@login_required
+@group_required(["Admin"])
 def search_applied_loans(request):
     query = request.GET.get('q')
     applied_loans = LoanApply.objects.filter(status='Pending')

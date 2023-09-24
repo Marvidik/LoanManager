@@ -64,10 +64,15 @@ class Loan(models.Model):
 
         return self.loanee.name
 
-class Payment(models.Model):
-    loan=models.ForeignKey(Loan,on_delete=models.CASCADE)
-    pay=models.IntegerField()
+class PaymentDay(models.Model):
     payment_date=models.DateTimeField()
+
+
+class Paid(models.Model):
+    paymentday=models.ForeignKey(PaymentDay,on_delete=models.CASCADE)
+    amount=models.IntegerField()
+    customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
+    loan=models.ForeignKey(Loan,on_delete=models.CASCADE)
 
 
 

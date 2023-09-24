@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from administration.views import login_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("",login_view,name="login"),
     path('administration/', include('administration.urls')),
     path('manager/', include('managers.urls')),
     path('general-manager/',include('generalmanagers.urls')),

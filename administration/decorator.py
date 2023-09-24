@@ -20,14 +20,14 @@ def group_required(groups=[]):
                 if request.user.groups.filter(name__in=groups).exists():
                     return view_func(request, *args, **kwargs)
                 else:
-                    if request.user.groups.filter(name='super').exists():
+                    if request.user.groups.filter(name='Admin').exists():
                         return redirect('dashboard')
-                    elif request.user.groups.filter(name='leader').exists():
-                        return redirect('leaderdash')
-                    elif request.user.groups.filter(name='customers').exists():
-                        return None
+                    elif request.user.groups.filter(name='GeneralManager').exists():
+                        return redirect('generalmanagersdashboard')
+                    elif request.user.groups.filter(name='Manager').exists():
+                       return redirect("manager-dashboard")
                     else:
-                        return redirect('dashboard')
+                        return redirect('login')
             else:
                 return redirect('')
         return wrapper

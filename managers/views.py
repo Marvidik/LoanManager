@@ -4,12 +4,16 @@ from administration.models import Customers,Branch,Loan,LoanApply
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from administration.forms import CustomerRegistrationForm
+from django.contrib.auth.decorators import login_required
+from administration.decorator import group_required
 
 # Create your views here.
 
 
 from django.db.models import Sum, F,ExpressionWrapper,FloatField
 
+@login_required
+@group_required(["Manager"])
 def dashboard(request):
     user = User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -46,6 +50,8 @@ def dashboard(request):
 
 from django.db.models import Sum,F
 
+@login_required
+@group_required(["Manager"])
 def branch_customer(request):
     user = User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -65,6 +71,8 @@ def branch_customer(request):
     return render(request, "managers/branchcustomers.html", context)
 
 
+@login_required
+@group_required(["Manager"])
 def branch_customer_search(request):
     user=User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -94,6 +102,8 @@ def branch_customer_search(request):
 
     return render(request,"managers/customersearch.html")
 
+@login_required
+@group_required(["Manager"])
 def branch_loans(request):
     user = User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -137,6 +147,8 @@ def branch_loans(request):
     return render(request, "managers/branchloan.html", context)
 
 
+@login_required
+@group_required(["Manager"])
 def loan_search(request):
     user=User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -176,6 +188,8 @@ def loan_search(request):
     return render(request,"managers/loansearch.html")
 
 
+@login_required
+@group_required(["Manager"])
 def add_customer(request):
     user=User.objects.get(username=request.user.username)
     manager = Manager.objects.get(name=user.id)
@@ -202,7 +216,8 @@ def add_customer(request):
     return render(request, "managers/f.html", context)
 
 
-
+@login_required
+@group_required(["Manager"])
 def applied(request):
     user = request.user
     manager = Manager.objects.get(name=user.id)
@@ -219,7 +234,8 @@ def applied(request):
     return render(request, "managers/applied.html", context)
 
 
-
+@login_required
+@group_required(["Manager"])
 def apply_loan(request):
     if request.method == 'POST':
         # Get the data from the POST request

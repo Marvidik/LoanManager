@@ -71,7 +71,6 @@ class PaymentDay(models.Model):
 class Paid(models.Model):
     paymentday=models.ForeignKey(PaymentDay,on_delete=models.CASCADE)
     amount=models.IntegerField()
-    customer=models.ForeignKey(Customers,on_delete=models.CASCADE)
     loan=models.ForeignKey(Loan,on_delete=models.CASCADE)
 
 

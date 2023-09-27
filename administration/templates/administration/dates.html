@@ -137,7 +137,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">States</h6>
+                <h6 class="text-white text-capitalize ps-3">Days</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -145,20 +145,20 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">State</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">General Manager</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number of branches</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number of customers</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Year</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Day</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Month No</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for state in states%}
+                    {% for day in days%}
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{state.name}}</h6>
+                            <h6 class="mb-0 text-sm">{{day.payment_date.year}}</h6>
                             
                           </div>
                         </div>
@@ -166,21 +166,21 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{state.general_manager}}</h6>
+                            <h6 class="mb-0 text-sm">{{day.payment_date.date}}</h6>
                             
                           </div>
                         </div>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">{{ state.branch_count }}</span>
+                        <span class="badge badge-sm bg-gradient-success">{{ day.payment_date|date:"l" }}</span>
                         
                       </td>
                       <td class="align-middle text-center">             
                        
-                        <span class="text-secondary text-xs font-weight-bold">{{ state.customer_count }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ day.payment_date.month }}</span>
                       </td>
                       <td class="align-middle">
-                        <a href="{% url 'state-detail' state.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Details
                         </a>
                       </td>

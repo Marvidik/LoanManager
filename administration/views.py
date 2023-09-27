@@ -395,7 +395,7 @@ def date(request):
 
 
     context = {
-        'day': day,
+        'days': day,
     }
        
     

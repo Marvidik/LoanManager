@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from managers.models import Manager
 from generalmanagers.models import GeneralManager
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 status_choices=[
@@ -59,6 +62,11 @@ class Loan(models.Model):
     status=models.CharField(max_length=100,choices=status_choices,default="active")
     due=models.BooleanField()
     expected_payment_days=models.IntegerField(default=25)
+
+    def update_amount_paid(self):
+        paid_amount = Paid.objects.filter(loan=self).aggregate(total_amount=models.Sum('amount'))['total_amount']
+        self.amount_paid = paid_amount or 0
+        self.save()
 
     def __str__(self):
 

@@ -100,7 +100,7 @@ def customer_details(request, customer_id):
 @group_required(["Admin"])
 def loan_table(request):
     customer_loan_data = []
-    customers = Customers.objects.all()
+    customers = Customers.objects.filter(loan__status="active").distinct()
 
     for customer in customers:
         customer_loan_data = Customers.objects.annotate(

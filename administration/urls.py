@@ -19,7 +19,8 @@ urlpatterns = [
     path('applied_loans/',applied_loans,name="applied"),
     path('approve_loan/<int:loan_id>/', approve_loan, name='approve_loan'),
     path('reject_loan/<int:loan_id>/', reject_loan, name='reject_loan'),
-    path('search/appliedloans/',search_applied_loans,name="searchapplied")
+    path('search/appliedloans/',search_applied_loans,name="searchapplied"),
+    path("dates/",date,name="dates")
     
  ]
 

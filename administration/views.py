@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.db.models import Sum,Count,Q
-from .models import Loan,Customers,State,Branch
+from .models import Loan,Customers,State,Branch,PaymentDay
 from managers.models import Manager
 from generalmanagers.models import GeneralManager
 from django.contrib.auth import authenticate, login
@@ -386,8 +386,49 @@ def search_applied_loans(request):
         'applied': applied,
         'query': query,
     }
-    print()
-    
+  
     return render(request, 'administration/appliedloans.html', context)
 
+
+def date(request):
+    day=PaymentDay.objects.all()
+
+
+    context = {
+        'day': day,
+    }
+       
+    
+
+
+
+    return render(request,"administration/dates.html",context)
+
+# from datetime import date
+# from django.shortcuts import render, redirect
+# from .models import PaymentDay, Paid
+# from .forms import PaymentForm  # Import your payment form
+
+# def process_payment(request):
+#     if request.method == 'POST':
+#         form = PaymentForm(request.POST)
+#         if form.is_valid():
+#             payment_date = form.cleaned_data['payment_date']  # Assuming the form has a payment_date field
+#             amount = form.cleaned_data['amount']  # Assuming the form has an amount field
+
+#             # Check if a PaymentDay instance for the payment date already exists
+#             payment_day, created = PaymentDay.objects.get_or_create(payment_date=payment_date)
+
+#             # Create a Paid instance and associate it with the PaymentDay
+#             customer = request.user.customer  # Assuming you have a customer association
+#             loan = customer.loan  # Assuming you have a loan association
+#             paid = Paid.objects.create(paymentday=payment_day, amount=amount, customer=customer, loan=loan)
+
+#             # Redirect or return a success message
+#             return redirect('success_page')
+
+#     else:
+#         form = PaymentForm()
+
+#     return render(request, 'payment_form.html', {'form': form})
 

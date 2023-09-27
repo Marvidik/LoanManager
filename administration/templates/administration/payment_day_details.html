@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Customers
+    Dates
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-primary" href="{% url 'states'%}">
+            <a class="nav-link text-white " href="{% url 'states'%}">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">table_view</i>
               </div>
@@ -137,7 +137,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">States Details</h6>
+                <h6 class="text-white text-capitalize ps-3">Day Payment</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -145,21 +145,20 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Branch Name</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Manager</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Amount Collected</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount Paid </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Number of customers</th>
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Amount collected</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">payment amount</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Due Date</th>
+                      <th class="text-secondary opacity-7">Total Paid</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for branch in branches%}
+                    {% for payment in payments %}
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{branch.name}}</h6>
+                            <h6 class="mb-0 text-sm">{{ payment.loan.loanee.name }}</h6>
                             
                           </div>
                         </div>
@@ -167,28 +166,28 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{branch.manager}}</h6>
-                            
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{branch.total_collected}}</h6>
+                            <h6 class="mb-0 text-sm">{{ payment.loan.amount_collected }}</h6>
                             
                           </div>
                         </div>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">{{ branch.total_paid }}</span>
+                        <span class="badge badge-sm bg-gradient-success">{{ payment.amount }}</span>
                         
                       </td>
                       <td class="align-middle text-center">             
                        
-                        <span class="text-secondary text-xs font-weight-bold">{{ branch.customer_count }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ payment.loan.due_date }}</span>
                       </td>
-                      
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm"> {{payment.loan.amount_paid}}</h6>
+                            
+                          </div>
+                        </div>
+                      </td>
+                     
                     </tr>
                     {% endfor %}
                   </tbody>

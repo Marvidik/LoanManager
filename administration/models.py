@@ -65,7 +65,7 @@ class Loan(models.Model):
 
     def update_amount_paid(self):
         paid_amount = Paid.objects.filter(loan=self).aggregate(total_amount=models.Sum('amount'))['total_amount']
-        self.amount_paid = paid_amount or 0
+        self.amount_paid = paid_amount + self.amount_paid or 0
         self.save()
 
     def __str__(self):

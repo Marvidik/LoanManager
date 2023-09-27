@@ -404,6 +404,22 @@ def date(request):
 
     return render(request,"administration/dates.html",context)
 
+
+from django.shortcuts import get_object_or_404, render
+from .models import PaymentDay, Paid
+
+def payment_day_details(request, paymentday_id):
+    paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
+    payments = Paid.objects.filter(paymentday=paymentday)
+
+    context = {
+        'paymentday': paymentday,
+        'payments': payments,
+    }
+
+    return render(request, 'administration/payment_day_details.html', context)
+
+
 # from datetime import date
 # from django.shortcuts import render, redirect
 # from .models import PaymentDay, Paid

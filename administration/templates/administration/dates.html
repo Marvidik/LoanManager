@@ -93,7 +93,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white active bg-gradient-primary " href="{% url 'applied'%}">
+            <a class="nav-link text-white active bg-gradient-primary " href="{% url 'dates'%}">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">view_in_ar</i>
               </div>
@@ -180,7 +180,7 @@
                         <span class="text-secondary text-xs font-weight-bold">{{ day.payment_date.month }}</span>
                       </td>
                       <td class="align-middle">
-                        <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="{% url 'payment_day_details' day.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Details
                         </a>
                       </td>

@@ -73,7 +73,7 @@ class Loan(models.Model):
         return self.loanee.name
 
 class PaymentDay(models.Model):
-    payment_date=models.DateTimeField()
+    payment_date=models.DateField()
 
 
 class Paid(models.Model):

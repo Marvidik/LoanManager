@@ -9,7 +9,7 @@ urlpatterns = [
     path("customers/",customers,name="customer_details"),
     path("profile/<int:customer_id>/",customer_details,name="detail"),
     path("loans/",loan_table,name="loans"),
-    path("add_payment/",loan_payment,name="payment"),
+    path("add_payment/",process_payment,name="payment"),
     path("general-manager_signup/",register_view,name="register"),
     path("manager_sign_up/",manager_sign_up,name="managersignup"),
     path('states/',states,name="states"),
@@ -20,7 +20,7 @@ urlpatterns = [
     path('approve_loan/<int:loan_id>/', approve_loan, name='approve_loan'),
     path('reject_loan/<int:loan_id>/', reject_loan, name='reject_loan'),
     path('search/appliedloans/',search_applied_loans,name="searchapplied"),
-    path("dates/",date,name="dates"),
+    path("dates/",dates,name="dates"),
     path('dates/<int:paymentday_id>/', payment_day_details, name='payment_day_details'),
     
  ]

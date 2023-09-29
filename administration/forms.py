@@ -43,3 +43,13 @@ class CustomerRegistrationForm(forms.ModelForm):
             'goccupation': forms.TextInput(attrs={'class': 'formbold-form-input','placeholder':''}),
             'gstate': forms.TextInput(attrs={'class': 'formbold-form-input','placeholder':''}),
         }
+
+from django import forms
+from .models import Paid  # Import the Paid model from your app's models
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Paid
+        fields = ['loan','paymentday', 'amount']  # Specify the fields you want in the form
+
+    

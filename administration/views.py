@@ -83,8 +83,7 @@ def customers(request):
 
     return render(request,"administration/tables.html",context)
 
-@login_required
-@group_required(["Admin"])
+
 def customer_details(request, customer_id):
     customer = get_object_or_404(Customers, pk=customer_id)
     loans = customer.loan_set.all()
@@ -185,7 +184,7 @@ def register_view(request):
 
         messages.success(request, "Registration successful. You can now log in.")
         
-        return redirect('generalmanagersdashboard')
+        return redirect('reg_redirect')
 
     return render(request, 'administration/sign-up.html')
 
@@ -221,7 +220,7 @@ def manager_sign_up(request):
 
         messages.success(request, "Registration successful. You can now log in.")
         
-        return redirect('manager-dashboard')
+        return redirect('reg_redirect')
 
     return render(request, "administration/sign-up.html")
 
@@ -325,6 +324,8 @@ def state_detail(request, state_id):
     return render(request, "administration/state_detail.html", context)
 
 
+@login_required
+@group_required(["Admin"])
 def applied_loans(request):
     applied=LoanApply.objects.filter(status="Pending")
 
@@ -371,7 +372,7 @@ def reject_loan(request, loan_id):
     loan.save()
     # You can also perform other actions here like sending notifications
     
-    return redirect('applied_loans')  # Redirect to the applied loans list
+    return redirect('applied')  # Redirect to the applied loans list
 
 @login_required
 @group_required(["Admin"])
@@ -390,6 +391,8 @@ def search_applied_loans(request):
     return render(request, 'administration/appliedloans.html', context)
 
 
+@login_required
+@group_required(["Admin"])
 def dates(request):
     day=PaymentDay.objects.all()
 
@@ -408,6 +411,8 @@ def dates(request):
 from django.shortcuts import get_object_or_404, render
 from .models import PaymentDay, Paid
 
+@login_required
+@group_required(["Admin"])
 def payment_day_details(request, paymentday_id):
     paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
     payments = Paid.objects.filter(paymentday=paymentday)
@@ -420,31 +425,42 @@ def payment_day_details(request, paymentday_id):
     return render(request, 'administration/payment_day_details.html', context)
 
 
-from datetime import date
+from datetime import datetime,date
 from django.shortcuts import render, redirect
 from .models import PaymentDay, Paid
 from .forms import PaymentForm  # Import your payment form
 
+@login_required
+@group_required(["Admin"])
 def process_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
-            payment_date = form.cleaned_data['payment_date']  # Assuming the form has a payment_date field
+            # payment_date = form.cleaned_data['paymentday']  # Assuming the form has a payment_date field
             amount = form.cleaned_data['amount']  # Assuming the form has an amount field
+            loan=form.cleaned_data['loan']
 
             # Check if a PaymentDay instance for the payment date already exists
-            payment_day, created = PaymentDay.objects.get_or_create(payment_date=payment_date)
+            payment_day, created = PaymentDay.objects.get_or_create(payment_date=str(date.today()))
+            
 
             # Create a Paid instance and associate it with the PaymentDay
-            customer = request.user.customer  # Assuming you have a customer association
-            loan = customer.loan  # Assuming you have a loan association
-            paid = Paid.objects.create(paymentday=payment_day, amount=amount, customer=customer, loan=loan)
+            # customer = request.user.customer  # Assuming you have a customer association
+            # loan = customer.loan  # Assuming you have a loan association
+            paid = Paid.objects.create(paymentday=payment_day, amount=amount, loan=loan)
 
             # Redirect or return a success message
-            return redirect('success_page')
-
+            return redirect('dates')
+        else:
+            print("there seems to be an error .")
     else:
         form = PaymentForm()
 
     return render(request, 'administration/payment.html', {'form': form})
 
+
+def reg_redirect(request):
+
+
+
+    return render(request,"administration/blank.html")

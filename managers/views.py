@@ -6,6 +6,7 @@ from django.db.models import Sum
 from administration.forms import CustomerRegistrationForm
 from django.contrib.auth.decorators import login_required
 from administration.decorator import group_required
+from .forms import ApplyForm
 
 # Create your views here.
 
@@ -224,7 +225,7 @@ def applied(request):
     branch = Branch.objects.get(manager=manager.id)
     customers = Customers.objects.filter(branch=branch.id)
     
-    applied = LoanApply.objects.filter(customer__in=customers, status='Pending')
+    applied = LoanApply.objects.filter(customer__in=customers)
 
     context = {
         "applied": applied,
@@ -234,31 +235,61 @@ def applied(request):
     return render(request, "managers/applied.html", context)
 
 
-@login_required
-@group_required(["Manager"])
-def apply_loan(request):
-    if request.method == 'POST':
-        # Get the data from the POST request
-        customer_id = request.POST.get('customer_id')
-        amount = request.POST.get('amount')
+
+# def apply_loan(request):
+#     print("i think i am calling this view")
+#     if request.method == 'POST':
+#         # Get the data from the POST request
+#         customer_id = request.POST.get('customer_id')
+#         amount = request.POST.get('amount')
+
         
-        # Validate and process the data
-        try:
-            customer = Customers.objects.get(id=customer_id)
-            branch = Branch.objects.get(manager=request.user.manager)  # Assuming manager is logged in
-            if customer.branch == branch:
-                # Create a new loan application
-                application = LoanApply(customer=customer, amount=amount)
-                application.save()
-                return redirect('success')  # Redirect to a success page or another URL
-            else:
-                return render(request, 'error.html', {'error_message': 'Customer is not in your branch'})
-        except (Customers.DoesNotExist, Branch.DoesNotExist, ValueError):
-            return render(request, 'error.html', {'error_message': 'Invalid data or customer not found'})
+        
+#         # Validate and process the data
+#         try:
+#             customer = Customers.objects.get(id=customer_id)
+#             branch = Branch.objects.get(manager=request.user.manager)  # Assuming manager is logged in
+#             if customer.branch == branch:
+#                 # Create a new loan application
+#                 application = LoanApply(customer=customer, amount=amount,status="Pending")
+#                 application.save()
+#                 return redirect('success')  # Redirect to a success page or another URL
+#             else:
+#                 return render(request, 'error.html', {'error_message': 'Customer is not in your branch'})
+#         except (Customers.DoesNotExist, Branch.DoesNotExist, ValueError):
+#             return render(request, 'error.html', {'error_message': 'Invalid data or customer not found'})
+            
+        
+
     
-    # If the request method is GET or there's an error, render the loan application form
-    customers = Customers.objects.filter(branch=request.user.manager.branch)  # Get customers in the manager's branch
-    context = {
-        'customers': customers,
-    }
-    return render(request, 'managers/applied.html', context)
+#     # If the request method is GET or there's an error, render the loan application form
+#     customers = Customers.objects.filter(branch=request.user.manager.branch)  # Get customers in the manager's branch
+#     context = {
+#         'customers': customers,
+#     }
+#     return render(request, 'managers/applied.html', context)
+
+def process_application(request):
+    if request.method == 'POST':
+        form = ApplyForm(request.POST)
+        if form.is_valid():
+            # payment_date = form.cleaned_data['paymentday']  # Assuming the form has a payment_date field
+            amount = form.cleaned_data['amount']  # Assuming the form has an amount field
+            customer=form.cleaned_data['customer']
+
+            
+
+            # Create a Paid instance and associate it with the PaymentDay
+            # customer = request.user.customer  # Assuming you have a customer association
+            # loan = customer.loan  # Assuming you have a loan association
+            paid = LoanApply.objects.create(customer=customer, amount=amount, status="Pending")
+
+
+            # Redirect or return a success message
+            return redirect('dates')
+        else:
+            print("there seems to be an error .")
+    else:
+        form = ApplyForm()
+
+    return render(request, 'managers/apply.html', {'form': form,})

@@ -10,5 +10,6 @@ urlpatterns = [
     path("branch/customers/loan-search",loan_search,name="loansearch"),
     path("branch/add_customer/",add_customer,name="add_customer"),
     path("branch/applied_loans/",applied,name="branchapplied"),
-    path("branch/apply-loan/",apply_loan,name="apply")
+    path("branch/apply-loan/",process_application,name="apply")
+    
 ]

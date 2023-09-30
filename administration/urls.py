@@ -22,6 +22,7 @@ urlpatterns = [
     path('search/appliedloans/',search_applied_loans,name="searchapplied"),
     path("dates/",dates,name="dates"),
     path('dates/<int:paymentday_id>/', payment_day_details, name='payment_day_details'),
+    path("registered/",reg_redirect,name="reg_redirect"),
     
  ]
 

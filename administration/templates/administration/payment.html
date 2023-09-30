@@ -5,7 +5,7 @@
     
     
 
-    <form action="{% url 'add_customer'%}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'payment'%}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="formbold-form-title">
         <h2 class="">Add Customer Payment</h2>
@@ -21,22 +21,18 @@
           </label>
           {{form.loan}}
         </div>
+      </div>
+      <div class="formbold-input-flex">
         <div>
-          <label for="lastname" class="formbold-form-label"> Day </label>
-          
-            {{form.paymentday}}
-          
+          <label for="address" class="formbold-form-label">
+            Amount
+          </label>
+          {{form.amount}}
         </div>
       </div>
-      <div class="formbold-mb-3">
-        <label for="address" class="formbold-form-label">
-          Amount
-        </label>
-        {{form.amount}}
-      </div>
-   
+ 
 
-      <button type="submit" class="formbold-btn">Register Now</button>
+      <button type="submit" class="formbold-btn">PAY</button>
     </form>
   </div>
 </div>

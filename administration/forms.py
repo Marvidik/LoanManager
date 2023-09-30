@@ -50,6 +50,11 @@ from .models import Paid  # Import the Paid model from your app's models
 class PaymentForm(forms.ModelForm):
     class Meta:
         model = Paid
-        fields = ['loan','paymentday', 'amount']  # Specify the fields you want in the form
+        fields = ['loan','amount']  # Specify the fields you want in the form
+
+        widgets = {
+        'amount': forms.NumberInput(attrs={'class': 'formbold-form-input','placeholder':''}),
+        'loan': forms.Select(attrs={'class': 'formbold-form-input'}),  # Use Select widget for ForeignKey
+        }
 
     

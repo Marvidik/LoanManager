@@ -38,31 +38,7 @@
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <style>
-    /* Center the modal vertically and horizontally */
-    #popup-container {
-        width: 300px; /* Adjust the width as needed */
-        max-height: 60vh; /* Limit the maximum height */
-        padding: 30px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white; /* Set your preferred background color */
-       
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a shadow for a pop-up effect */
-        border-radius: 20px; /* Add rounded corners */
-    }
 
-    /* Center the form elements */
-    #popup-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding:20px;
-    }
-</style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -136,7 +112,7 @@
             
                 
               
-              <button class="btn bg-gradient-primary w-120  mb-2"  id="show-popup" type="button" onclick="">Apply </button>
+              <a href="{% url 'apply'%}"><button class="btn bg-gradient-primary w-120  mb-2"   type="button" onclick="">Apply </button><a/>
               
           </div>
           <ul class="navbar-nav  justify-content-end">
@@ -194,9 +170,11 @@
                         <p class="text-xs text-secondary mb-0"></p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        
-                        
+                       {% if client.status == "Pending"%}
                         <span class="badge badge-sm bg-gradient-success">{{ client.status }}</span>
+                        {% elif client.status == "Rejected"%}
+                        <span class="badge badge-sm bg-gradient-danger">{{ client.status }}</span>
+                        {% endif %}
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ client.customer.branch }}</span>
@@ -307,31 +285,6 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-  <div id="popup-container" class="modal">
-    <div class="modal-content">
-        <h4>Loan Apllication</h4>
-        <form id="popup-form" method="post" >
-          {% csrf_token %}
-            <div class="input-group input-group-outline">
-              <label for="name">Customer Name</label>
-              <select name="customer_id" id="customer" class="input-group input-group-outline">
-                {% for customer in customers %}
-                    <option value="{{ customer.id }}">{{ customer.name }}</option>
-                {% endfor %}
-            </select>
-            </div>
-            <div class="input-group input-group-outline">
-              <input type="number" id="name" name="amount">
-              <label for="name">Amount</label>
-          </div>
-            <button class="btn bg-gradient-primary w-120  mb-2"   type="submit" onclick="{% url 'apply'%}">Submit </button>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>

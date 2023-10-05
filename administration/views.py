@@ -464,3 +464,17 @@ def reg_redirect(request):
 
 
     return render(request,"administration/blank.html")
+
+@login_required
+@group_required(["Admin"])
+def payment_today(request):
+    current_date = date.today()
+    paymentday, created = PaymentDay.objects.get_or_create(payment_date=current_date)
+    payments = Paid.objects.filter(paymentday=paymentday)
+
+    context = {
+        'paymentday': paymentday,
+        'payments': payments,
+    }
+
+    return render(request, 'administration/today.html', context)

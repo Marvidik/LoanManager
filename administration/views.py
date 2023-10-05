@@ -392,7 +392,6 @@ def search_applied_loans(request):
 
 
 @login_required
-@group_required(["Admin"])
 def dates(request):
     day=PaymentDay.objects.all()
 

@@ -416,9 +416,16 @@ def payment_day_details(request, paymentday_id):
     paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
     payments = Paid.objects.filter(paymentday=paymentday)
 
+    non_paying = Customers.objects.filter(
+        loan__status='active'
+    ).exclude(
+        loan__paid__paymentday=paymentday
+    )
+
     context = {
         'paymentday': paymentday,
         'payments': payments,
+        'non_paying':non_paying
     }
 
     return render(request, 'administration/payment_day_details.html', context)
@@ -471,9 +478,16 @@ def payment_today(request):
     paymentday, created = PaymentDay.objects.get_or_create(payment_date=current_date)
     payments = Paid.objects.filter(paymentday=paymentday)
 
+    non_paying = Customers.objects.filter(
+        loan__status='active'
+    ).exclude(
+        loan__paid__paymentday=paymentday
+    )
+
     context = {
         'paymentday': paymentday,
         'payments': payments,
+        'non_paying':non_paying
     }
 
     return render(request, 'administration/today.html', context)

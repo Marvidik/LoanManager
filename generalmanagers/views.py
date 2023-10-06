@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib.auth.models import User
 from .models import GeneralManager
-from administration.models import Branch,Customers,State,Loan
+from administration.models import Branch,Customers,State,Loan,Paid,PaymentDay
 from django.db.models import Sum
 from administration.decorator import group_required
 from django.contrib.auth.decorators import login_required
@@ -369,3 +369,45 @@ def branches(request):
 
 
     return render(request,"generalmanagers/branches.html",context={ "branchs":branches})
+
+@login_required
+def payment_day_details(request, paymentday_id):
+    paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
+    payments = Paid.objects.filter(paymentday=paymentday)
+
+    # Get the logged-in general manager
+    general_manager = GeneralManager.objects.get(name=request.user)
+
+    # Get the state associated with the logged-in general manager
+    state = general_manager.state 
+    print(state)
+
+    # Filter customers based on state and payment day
+    non_paying = Customers.objects.filter(
+        state=state, loan__status='active'
+    ).exclude(
+        loan__paid__paymentday=paymentday
+    )
+
+    context = {
+        'paymentday': paymentday,
+        'payments': payments,
+        'non_paying': non_paying
+    }
+
+    return render(request, 'generalmanagers/day_details.html', context)
+
+@login_required
+def dates(request):
+    day=PaymentDay.objects.all()
+
+
+    context = {
+        'days': day,
+    }
+       
+    
+
+
+
+    return render(request,"generalmanagers/days.html",context)

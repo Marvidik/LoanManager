@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Manager
-from administration.models import Customers,Branch,Loan,LoanApply
+from administration.models import Customers,Branch,Loan,LoanApply,Paid,PaymentDay,GeneralManager
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from administration.forms import CustomerRegistrationForm
@@ -293,3 +293,44 @@ def process_application(request):
         form = ApplyForm()
 
     return render(request, 'managers/apply.html', {'form': form,})
+
+@login_required
+def payment_day_details(request, paymentday_id):
+    paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
+    payments = Paid.objects.filter(paymentday=paymentday)
+
+    # Get the logged-in general manager
+    manager = Manager.objects.get(name=request.user)
+
+    # Get the state associated with the logged-in general manager
+    state = manager.branch
+    
+    # Filter customers based on state and payment day
+    non_paying = Customers.objects.filter(
+        branch=state, loan__status='active'
+    ).exclude(
+        loan__paid__paymentday=paymentday
+    )
+
+    context = {
+        'paymentday': paymentday,
+        'payments': payments,
+        'non_paying': non_paying
+    }
+
+    return render(request, 'managers/day_details.html', context)
+
+@login_required
+def dates(request):
+    day=PaymentDay.objects.all()
+
+
+    context = {
+        'days': day,
+    }
+       
+    
+
+
+
+    return render(request,"managers/days.html",context)

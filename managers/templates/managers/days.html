@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Material Dashboard 2 by Creative Tim
+    Dates
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -41,68 +41,73 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-        <img src="{% static 'administration/assets/img/logo-ct.png'%}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
-      </a>
-    </div>
-    <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link text-white " href="{% url 'manager-dashboard'%}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">dashboard</i>
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+        <div class="sidenav-header">
+          <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+          <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
+            <img src="{% static 'administration/assets/img/logo-ct.png'%}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold text-white">Loanify</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="{% url 'branchcustomers'%}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Customers Details</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="{% url 'branchloans'%}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">view_in_ar</i>
-            </div>
-            <span class="nav-link-text ms-1">Loans</span>
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white  " href="{% url 'branchapplied'%}">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">view_in_ar</i>
-              </div>
-              <span class="nav-link-text ms-1">Applied Loans</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white  " href="{% url 'add_customer'%}">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">view_in_ar</i>
-              </div>
-              <span class="nav-link-text ms-1">Add Customer</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white  " href="{% url 'datesss'%}">
-              <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">view_in_ar</i>
-              </div>
-              <span class="nav-link-text ms-1">Payment Days</span>
-            </a>
-          </li>
-      </ul>
-    </div>
-  </aside>
+        </div>
+        <hr class="horizontal light mt-0 mb-2">
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link text-white  " href="{% url 'manager-dashboard'%}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">dashboard</i>
+                </div>
+                <span class="nav-link-text ms-1">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white " href="{% url 'branchcustomers'%}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">table_view</i>
+                </div>
+                <span class="nav-link-text ms-1">Customers Details</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white " href="{% url 'branchloans'%}">
+                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="material-icons opacity-10">view_in_ar</i>
+                </div>
+                <span class="nav-link-text ms-1">Loans</span>
+              </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'branchapplied'%}">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">view_in_ar</i>
+                  </div>
+                  <span class="nav-link-text ms-1">Applied Loans</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white  " href="{% url 'add_customer'%}">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">view_in_ar</i>
+                  </div>
+                  <span class="nav-link-text ms-1">Add Customer</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white active bg-gradient-primary " href="{% url 'datesss'%}">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="material-icons opacity-10">view_in_ar</i>
+                  </div>
+                  <span class="nav-link-text ms-1">Payment Days</span>
+                </a>
+              </li>
+          </ul>
+        </div>
+        <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+          <div class="mx-3">
+            
+          </div>
+        </div>
+      </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -115,77 +120,75 @@
           <h6 class="font-weight-bolder mb-0">Tables</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <form method="GET" action="{% url 'loansearch'%}">
-              {% csrf_token %}
-            <div class="input-group input-group-outline"> 
-                
-              <input type="text" class="form-control w-40 mb-2" name="q"  placeholder="Search customers">
-              <button class="btn bg-gradient-primary w-40  mb-2" type="submit" onclick="{% url 'loansearch'%}">Search</button>
-              </form>
-          </div>
+          
+          <ul class="navbar-nav  justify-content-end">
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
     <!-- End Navbar -->
+    
+    <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Loans Information</h6>
+                <h6 class="text-white text-capitalize ps-3">Days</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center justify-content-center mb-0">
+                <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Amount Collected</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">paid</th>
-                      <th></th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Year</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Day</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Month No</th>
+                      <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for loan in customers_data %}
+                    {% for day in days%}
                     <tr>
                       <td>
-                        <div class="d-flex px-2">
-                          <div>
-                            <img src="{{loan.customer.passport.url}}" class="avatar avatar-sm rounded-circle me-2" alt="xd">
-                          </div>
-                          <div class="my-auto">
-                            <h6 class="mb-0 text-sm">{{loan.customer.name}}</h6>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{day.payment_date.year}}</h6>
+                            
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm font-weight-bold mb-0">{{loan.given}}</p>
-                      </td>
-                      <td>
-                        
-                        <span class="text-xs font-weight-bold">{{loan.status}}</span>
-                        
-                      </td>
-                      <td class="align-middle text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                           
-                          <span class="me-2 text-xs font-weight-bold">{{loan.ppaid}}%</span>
-                          
-                          <div>
-                            <div class="progress">
-                                
-                                <div class="progress-bar bg-gradient-success" style="width: {{ loan.ppaid }}%;" role="progressbar" aria-valuenow="{{ ppaid }}" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ day.payment_date|date:"d" }}th</h6>
+                            
                           </div>
                         </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">{{ day.payment_date|date:"l" }}</span>
+                        
+                      </td>
+                      <td class="align-middle text-center">             
+                       
+                        <span class="text-secondary text-xs font-weight-bold">{{ day.payment_date|date:"m" }}</span>
                       </td>
                       <td class="align-middle">
-                        <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                          <i class="fa fa-ellipsis-v text-xs"></i>
-                        </button>
+                        <a href="{% url 'payment_day_detailsss' day.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Details
+                        </a>
                       </td>
                     </tr>
                     {% endfor %}
@@ -292,4 +295,4 @@
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
 
-</html>
+</html> 

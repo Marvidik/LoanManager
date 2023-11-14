@@ -1,7 +1,8 @@
-from django.urls import path
-from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
+
+from .views import *
 
 urlpatterns = [
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('dates/<int:paymentday_id>/', payment_day_details, name='payment_day_details'),
     path("registered/",reg_redirect,name="reg_redirect"),
     path("today/",payment_today,name="today"),
+    path("payment_day_details/<int:paymentday_id>/download/",download_payment_day_details,name="download_payment_day_details")
     
  ]
 

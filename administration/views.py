@@ -1,19 +1,18 @@
-from django.shortcuts import render, get_object_or_404,redirect
-from django.db.models import Sum,Count,Q
-from .models import Loan,Customers,State,Branch,PaymentDay
-from managers.models import Manager
-from generalmanagers.models import GeneralManager
-from django.contrib.auth import authenticate, login
-from .forms import CustomerRegistrationForm
-from django.contrib.auth.models import User,Group
-from django.db.models import Sum, F, ExpressionWrapper, FloatField
 from django.contrib import messages
-from django.views.generic import  ListView
-from .decorator import group_required
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from administration.models import LoanApply
-from django.contrib.auth import login
+from django.contrib.auth.models import Group, User
+from django.db.models import Count, ExpressionWrapper, F, FloatField, Q, Sum
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView
 
+from administration.models import LoanApply
+from generalmanagers.models import GeneralManager
+from managers.models import Manager
+
+from .decorator import group_required
+from .forms import CustomerRegistrationForm
+from .models import Branch, Customers, Loan, PaymentDay, State
 
 
 #  function that renders the admin page for the super user 
@@ -339,6 +338,7 @@ def applied_loans(request):
 
 from django.utils import timezone
 
+
 @login_required
 @group_required(["Admin"])
 def approve_loan(request, loan_id):
@@ -408,7 +408,9 @@ def dates(request):
 
 
 from django.shortcuts import get_object_or_404, render
-from .models import PaymentDay, Paid
+
+from .models import Paid, PaymentDay
+
 
 @login_required
 @group_required(["Admin"])
@@ -431,10 +433,13 @@ def payment_day_details(request, paymentday_id):
     return render(request, 'administration/payment_day_details.html', context)
 
 
-from datetime import datetime,date
-from django.shortcuts import render, redirect
-from .models import PaymentDay, Paid
+from datetime import date, datetime
+
+from django.shortcuts import redirect, render
+
 from .forms import PaymentForm  # Import your payment form
+from .models import Paid, PaymentDay
+
 
 @login_required
 @group_required(["Admin"])
@@ -477,6 +482,7 @@ def payment_today(request):
     current_date = date.today()
     paymentday, created = PaymentDay.objects.get_or_create(payment_date=current_date)
     payments = Paid.objects.filter(paymentday=paymentday)
+    ID=PaymentDay.objects.get(id)
 
     non_paying = Customers.objects.filter(
         loan__status='active'
@@ -487,7 +493,53 @@ def payment_today(request):
     context = {
         'paymentday': paymentday,
         'payments': payments,
-        'non_paying':non_paying
+        'non_paying':non_paying,
+        "idd":ID
     }
 
     return render(request, 'administration/today.html', context)
+
+
+
+import io
+
+import pandas as pd
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.encoding import escape_uri_path
+
+
+def download_payment_day_details(request, paymentday_id):
+    paymentday = get_object_or_404(PaymentDay, pk=paymentday_id)
+    payments = Paid.objects.filter(paymentday=paymentday)
+
+    non_paying = Customers.objects.filter(
+        loan__status='active'
+    ).exclude(
+        loan__paid__paymentday=paymentday
+    )
+
+    context = {
+        'paymentday': paymentday,
+        'payments': payments,
+        'non_paying': non_paying
+    }
+
+    # Render the template to a string
+    html_string = render_to_string('administration/payment_day_details.html', context)
+
+    # Create a DataFrame using pandas
+    df = pd.read_html(html_string)[0]  # Assuming the data is in the first table
+
+    # Create an ExcelWriter object
+    excel_writer = io.BytesIO()
+
+    # Create an Excel file from the DataFrame
+    df.to_excel(excel_writer, index=False, engine='openpyxl')
+
+    # Create an HttpResponse with the Excel file
+    response = HttpResponse(excel_writer.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{escape_uri_path("payment_day_details.xlsx")}'
+
+    return response
+

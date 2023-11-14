@@ -138,6 +138,10 @@
         </div>
       </div>
     </nav>
+    <a href="{% url 'download_payment_day_details' paymentday_id=paymentday.id %}">
+      <button class="btn bg-gradient-primary w-20 mb-2" type="button">Save Excel</button>
+  </a>
+  
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
